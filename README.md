@@ -38,3 +38,9 @@ Get access_token from postman
 Get introspect from postman from above access_token
 <img src="/docs/10_instropect.PNG" alt="RUN"/>
 <br/>
+
+<img src="/docs/11_revoke_token.PNG" alt="RUN"/>
+<br/>
+
+<img src="/docs/12_after_revoke.PNG" alt="RUN"/>
+<br/>
