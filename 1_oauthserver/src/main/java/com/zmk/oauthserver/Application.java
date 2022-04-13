@@ -1,11 +1,13 @@
 package com.zmk.oauthserver;
 
+import java.time.Duration;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
@@ -13,6 +15,7 @@ import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.ClientSettings;
+import org.springframework.security.oauth2.server.authorization.config.TokenSettings;
 
 @SpringBootApplication
 public class Application implements CommandLineRunner{
@@ -23,8 +26,8 @@ public class Application implements CommandLineRunner{
 
 	@Autowired
 	RegisteredClientRepository registeredClientRepository;
-	@Autowired
-	PasswordEncoder passwordEncoder;
+//	@Autowired
+//	PasswordEncoder passwordEncoder;
 	@Override
 	public void run(String... args) throws Exception {
 		createData();
@@ -61,12 +64,14 @@ public class Application implements CommandLineRunner{
 					.clientId("messaging-client")
 					//.clientSecret("{noop}secret")
 					.clientSecret("$2a$10$MAlCzs8UH8XXXKd36fwTR.yP4P4P/XoByYK3bGFWhx0ohJ2TnPRry")
-					.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-					.authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-					.authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-					.authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+					.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)// can login SSO webform
+					.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)// can get access_token postman
+					.authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)//can get code from client
+					.authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)//
+					.authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)//access direct to resource not get code
 					.redirectUri("http://127.0.0.1:8080/login/oauth2/code/messaging-client-oidc")
 					.redirectUri("http://127.0.0.1:8080/authorized")
+					.tokenSettings(tokenSettings())
 					.scope(OidcScopes.OPENID)
 					.scope("message.read")
 					.scope("message.write")
@@ -74,5 +79,42 @@ public class Application implements CommandLineRunner{
 					.build();
 			registeredClientRepository.save(registeredClient);
 		}
+		RegisteredClient registeredClient2 = null;
+		registeredClient2 = registeredClientRepository.findByClientId("app1");
+		if(registeredClient2 == null) {
+			registeredClient2 = RegisteredClient.withId(UUID.randomUUID().toString())
+			        .clientId("app1")
+					//.clientSecret("{noop}secret")
+					.clientSecret("$2a$10$MAlCzs8UH8XXXKd36fwTR.yP4P4P/XoByYK3bGFWhx0ohJ2TnPRry")
+			        .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
+			        .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+			        .redirectUri("https://oidcdebugger.com/debug")
+			        .scope(OidcScopes.OPENID)
+			        .build();
+			registeredClientRepository.save(registeredClient2);
+		}
+		RegisteredClient registeredClient3 = null;
+		registeredClient3 = registeredClientRepository.findByClientId("app2");
+		if(registeredClient3 == null) {
+			registeredClient3 = RegisteredClient.withId(UUID.randomUUID().toString())
+			        .clientId("app2")
+					//.clientSecret("{noop}secret")
+					.clientSecret("$2a$10$MAlCzs8UH8XXXKd36fwTR.yP4P4P/XoByYK3bGFWhx0ohJ2TnPRry")
+			        .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
+			        .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+//			        .tokenSettings(tokenSettings())
+			        .scope("access-read")
+			        .build();
+			registeredClientRepository.save(registeredClient3);
+		}
+		     
 	}
+	  @Bean
+	  public TokenSettings tokenSettings() {
+	    //@formatter:off
+	    return TokenSettings.builder()
+	        .accessTokenTimeToLive(Duration.ofMinutes(30L))
+	        .build();
+	    // @formatter:on
+	  }
 }

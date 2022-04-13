@@ -22,3 +22,19 @@ username/pass: admin/admin
 <br/>
 <img src="/docs/6_return.PNG" alt="RUN"/>
 <br/>
+
+SourceCode need note to get access_token from postman
+<img src="/docs/7_login_token.PNG" alt="RUN"/>
+<br/>
+
+Data saved in database
+<img src="/docs/8_login_token_db.PNG" alt="RUN"/>
+<br/>
+
+Get access_token from postman
+<img src="/docs/9_token_api.PNG" alt="RUN"/>
+<br/>
+
+Get introspect from postman from above access_token
+<img src="/docs/10_instropect.PNG" alt="RUN"/>
+<br/>

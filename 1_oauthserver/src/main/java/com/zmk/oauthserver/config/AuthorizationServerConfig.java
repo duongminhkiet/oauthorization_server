@@ -69,7 +69,37 @@ public class AuthorizationServerConfig {
 	@Bean
 	public ProviderSettings providerSettings() {
 		return ProviderSettings.builder().issuer("http://auth-server:9000").build();
+//		return ProviderSettings.builder().issuer("http://localhost:9000").build();
 	}
+//	 @Bean
+//	  public RegisteredClientRepository registeredClientRepository() {
+//	    // @formatter:off
+//		 RegisteredClient registeredClient2 = RegisteredClient.withId(UUID.randomUUID().toString())
+//			        .clientId("app1")
+//					//.clientSecret("{noop}secret")
+//					.clientSecret("$2a$10$MAlCzs8UH8XXXKd36fwTR.yP4P4P/XoByYK3bGFWhx0ohJ2TnPRry")
+//			        .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
+//			        .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+//			        .redirectUri("https://oidcdebugger.com/debug")
+//			        .scope(OidcScopes.OPENID)
+//			        .build();
+//	    // @formatter:on
+//
+//	    // @formatter:off
+//		 RegisteredClient registeredClient3 = RegisteredClient.withId(UUID.randomUUID().toString())
+//			        .clientId("app2")
+//					//.clientSecret("{noop}secret")
+//					.clientSecret("$2a$10$MAlCzs8UH8XXXKd36fwTR.yP4P4P/XoByYK3bGFWhx0ohJ2TnPRry")
+//			        .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
+//			        .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+////			        .tokenSettings(tokenSettings())
+//			        .scope("access-read")
+//			        .build();
+//	    // @formatter:on
+//
+//	    return new InMemoryRegisteredClientRepository(registeredClient2, registeredClient3);
+//	  }
+
 //	@Bean
 //	public OAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate, RegisteredClientRepository registeredClientRepository) {
 //		return new JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository);
