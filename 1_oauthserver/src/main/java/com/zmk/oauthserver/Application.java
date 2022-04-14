@@ -113,7 +113,7 @@ public class Application implements CommandLineRunner{
 	  public TokenSettings tokenSettings() {
 	    //@formatter:off
 	    return TokenSettings.builder()
-	        .accessTokenTimeToLive(Duration.ofMinutes(30L))
+	        .accessTokenTimeToLive(Duration.ofMinutes(2L))
 	        .build();
 	    // @formatter:on
 	  }
