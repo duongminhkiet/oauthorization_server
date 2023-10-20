@@ -11,7 +11,7 @@
 5. On desktop change host
 <img src="/docs/1_config_host_local.PNG" alt="RUN"/>
 <br/>
-5. Run with order 1->2->3
+5. Run with order 1->2->3 <br/>
 6. open localhost:8080
 username/pass: admin/admin
 <img src="/docs/3_login_8080.PNG" alt="RUN"/>
